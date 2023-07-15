@@ -1,0 +1,78 @@
+<h1>List Of Phones </h1>
+<form [formGroup]="phoneForm" (ngSubmit)="isEditing ? updatePhone() : addPhone()">
+  <label for="brand">Brand:</label>
+  <input type="text" id="brand" formControlName="brand" required>
+  <div *ngIf="phoneForm.controls.brand.invalid && (phoneForm.controls.brand.dirty || phoneForm.controls.brand.touched)">
+    <small>Brand is required</small>
+  </div>
+  
+  <label for="model">Model:</label>
+  <input type="text" id="model" formControlName="model" required>
+  <div *ngIf="phoneForm.controls.model.invalid && (phoneForm.controls.model.dirty || phoneForm.controls.model.touched)">
+    <small>Model is required</small>
+  </div>
+
+  <label for="colour">Colour:</label>
+  <input type="text" id="colour" formControlName="colour" required>
+  <div *ngIf="phoneForm.controls.colour.invalid && (phoneForm.controls.colour.dirty || phoneForm.controls.colour.touched)">
+    <small>Colour is required</small>
+  </div>
+
+  <label for="price">Price:</label>
+  <input type="number" id="price" formControlName="price" required>
+  <div *ngIf="phoneForm.controls.price.invalid && (phoneForm.controls.price.dirty || phoneForm.controls.price.touched)">
+    <small>Price is required</small>
+  </div>
+
+  <button type="submit">{{ isEditing ? 'Update Phone' : 'Add Phone' }}</button>
+  <button type="button" (click)="cancelEdit()" *ngIf="isEditing">Cancel</button>
+</form>
+<!-- Search input -->
+<label>Search:</label>
+<input type="text" placeholder="Search" [(ngModel)]="searchPhone" (keyup.enter)="searchPhones(searchPhone)">
+<br>
+
+<form [formGroup]="filterForm" class="filter-form">
+  <label for="make">Brand:</label>
+  <input type="text" id="make" formControlName="brand">
+
+  <label for="model">Model:</label>
+  <input type="text" id="model" formControlName="model">
+
+  <label for="colour">Colour:</label>
+  <input type="text" id="colour" formControlName="colour">
+
+  <button type="button" (click)="applyFilters()">Filter</button>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th (click)="sortTable('brand')" [class.sorted]="sortField === 'brand'">
+        Brand <span class="sort-indicator">{{ getSortIndicator('brand') }}</span>
+      </th>
+      <th (click)="sortTable('model')" [class.sorted]="sortField === 'model'">
+        Model <span class="sort-indicator">{{ getSortIndicator('model') }}</span>
+      </th>
+      <th (click)="sortTable('colour')" [class.sorted]="sortField === 'colour'">
+        Colour <span class="sort-indicator">{{ getSortIndicator('colour') }}</span>
+      </th>
+      <th (click)="sortTable('price')" [class.sorted]="sortField === 'price'">
+        Price <span class="sort-indicator">{{ getSortIndicator('price') }}</span>
+      </th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let phone of filteredPhones">
+      <td>{{ phone.brand }}</td>
+      <td>{{ phone.model }}</td>
+      <td>{{ phone.colour }}</td>
+      <td>{{ phone.price }}</td>
+      <td>
+        <button (click)="editPhone(phone)">Edit</button>
+        <button (click)="deletePhone(phone)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

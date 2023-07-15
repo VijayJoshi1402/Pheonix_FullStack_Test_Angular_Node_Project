@@ -1,0 +1,26 @@
+<div class="card">
+  <h2 class="card-header">Login</h2>
+  <div class="card-body">
+  <div *ngIf="loginError" class="error-message">
+    Unauthorized login. Please check your credentials.
+  </div>
+  
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="username">Username: </label>
+      <input type="text" id="username" formControlName="username"  required>
+      <div *ngIf="loginForm.controls.username.touched && loginForm.controls.username.errors?.required">
+        Username is required.
+      </div>
+    </div>
+    <div>
+      <label for="password">Password: </label>
+      <input type="password" id="password" formControlName="password" required>
+      <div *ngIf="loginForm.controls.password.touched && loginForm.controls.password.errors?.required">
+        Password is required.
+      </div>
+    </div>
+    <button type="submit" [disabled]="loginForm.invalid">Login</button>
+  </form>
+</div>
+</div>
